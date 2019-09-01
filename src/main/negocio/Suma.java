@@ -1,4 +1,4 @@
-package main;
+package main.negocio;
 
 public class Suma implements Aritmetica {
 

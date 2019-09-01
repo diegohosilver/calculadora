@@ -1,11 +1,11 @@
 package test;
 
-import main.Calculo;
-import main.Operacion;
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import main.negocio.Calculo;
+import main.negocio.Operacion;
 
 public class CalculoTest {
 	
