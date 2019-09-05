@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import main.negocio.Calculo;
 import main.negocio.Operacion;
-import main.negocio.Calculo;
 
 public class DivisionTest {
 	private Calculo calculo;
@@ -21,17 +20,17 @@ public class DivisionTest {
 		double resultado = this.calculo.calcular(4.0, 2.0);
 		assertTrue(resultado == 2.0);
 	}
+	
 	@Test
 	public void DivisionNegativo() {
 		double resultado = this.calculo.calcular(-4.0, 2.0);
 		assertTrue(resultado == -2.0);
 	}
 	
-	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	
+	@Test(expected = IllegalArgumentException.class)
 	public void whenExceptionThrown_thenExpectationSatisfied() {
-	    String test = null;
-	    test.length();
+	    this.calculo.calcular(100, 0);
 	}
 	
 }
