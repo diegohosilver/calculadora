@@ -28,6 +28,3 @@ public class Calculo implements Aritmetica {
 	}
 	
 }
-
-
-// GAMSkdmaskdm
