@@ -16,13 +16,20 @@ Es un `ENUM` con las cuatro operaciones básicas: `SUMA`, `RESTA`, `PRODUCTO` y 
 Cada una de ellas devuelve una instancia de la clase que realiza la operación indicada en su nombre.
 #### Calculo
 Cuenta con los siguientes métodos públicos:
-1. `Calculo(Operacion.[Opcion seleccionada])`: Constructor de la clase. Requiere una operación como parámetro
+1. `Calculo(Operacion.[Opcion seleccionada])`: Constructor de la clase. Requiere una operación como parámetro.
    * Excepciones:
-     * Tipo: `IllegalArgumentException`
-     * Descripción: _Operacion no puede estar vacío_
+     * Tipo: `IllegalArgumentException`.
+     * Descripción: _Operacion no puede estar vacío_.
 2. `void cambiarOperador(Operacion.[Opcion seleccionada])`: Permite cambiar el operador actual.
 3. `Operacion obtenerOperadorActual()`: Devuelve el operador actualmente establecido.
 4. `double calcular(double, double)`: Realiza un cálculo entre dos terminos según el operador establecido.
    * Excepciones (`Operador.DIVISION`):
-     * Tipo: `IllegalArgumentException`
-     * Descripción: _No se puede dividir por cero_
+     * Tipo: `IllegalArgumentException`.
+     * Descripción: _No se puede dividir por cero_.
+#### Cache
+Es un `Singleton` que funciona como un _cache_ global.
+Cuenta con las siguientes características públicas:
+* Atributos:
+    1. `items`: `Map` que permite almacenar cualquier tipo de dato.
+* Métodos:
+    1. `Cache obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los items.
