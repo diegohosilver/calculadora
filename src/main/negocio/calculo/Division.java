@@ -1,4 +1,4 @@
-package main.negocio;
+package main.negocio.calculo;
 
 public class Division implements Aritmetica {
 	

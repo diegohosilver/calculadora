@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.negocio.Calculo;
-import main.negocio.Operacion;
+import main.negocio.calculo.Calculo;
+import main.negocio.calculo.Operacion;
 
 public class DivisionTest {
 	private Calculo calculo;
