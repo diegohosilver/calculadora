@@ -1,4 +1,4 @@
-# Calculadora
+# calculadora
 ### Trabajo práctico para Programación III
 Este repositorio contiene código fuente y consignas a realizar en Java
 ### Estructura del proyecto
@@ -26,10 +26,3 @@ Cuenta con los siguientes métodos públicos:
    * Excepciones (`Operador.DIVISION`):
      * Tipo: `IllegalArgumentException`.
      * Descripción: _No se puede dividir por cero_.
-#### Cache
-Es un `Singleton` que funciona como un _cache_ global.
-Cuenta con las siguientes características públicas:
-* Atributos:
-    1. `items`: `Map` que permite almacenar cualquier tipo de dato.
-* Métodos:
-    1. `Cache obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los items.
