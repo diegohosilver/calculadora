@@ -26,8 +26,10 @@ Cuenta con los siguientes métodos públicos:
    * Excepciones (`Operador.DIVISION`):
      * Tipo: `IllegalArgumentException`.
      * Descripción: _No se puede dividir por cero_.
-#### Cache
-Es un `Singleton` que funciona como un _cache_ global. <br>
-Cuenta con los siguientes métodos y atributos públicos:
-1. `items`: `Map` que permite almacenar cualquier tipo de dato.
-2. `Cache obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los items.
+#### Memoria
+Es un `Singleton` que funciona como la memoria de la calculadora. Permite almacenar hasta 3 números. <br>
+Cuenta con los siguientes métodos públicos:
+1. `Memoria obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los métodos.
+2. `void agregar()`: Agrega un número a la memoria de la calculadora. Si la cantidad de items sobrepasa el límite, se remueve el primer número ingresado.
+3. `ArrayList<Double> listar()`: Obtiene todos los números almacenados en la memoria.
+4. `void vaciar()`: Vacía la memoria.
