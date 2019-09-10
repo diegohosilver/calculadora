@@ -2,6 +2,8 @@ package main.negocio;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Historial {
 
@@ -24,20 +26,25 @@ public class Historial {
 		_items.put(Util.ObtenerGuid(), new Operacion(descripcion, valor));
 	}
 	
+	public void agregar(String clave, Operacion operacion) {
+		_items.put(clave, operacion);
+	}
+	
 	public Map<String, Operacion> listar() {
 		return _items;
 	}
 	
-	public Operacion obtener(String descripcion) {
-		for(Operacion operacion: _items.values()) {
-			if(operacion.descripcion().equals(descripcion)) {
-				return _items.get(descripcion);
-			}
-			else{
-				throw new RuntimeException("No se ha encontrado la operacion seleccionada");
-				}
+	public Operacion obtener(String clave) {
+		Optional<Operacion> operacion = _items.entrySet().stream()
+			.filter(x -> x.getKey().equals(clave))
+			.map(Map.Entry::getValue)
+			.findFirst();
+		
+		if (!operacion.isPresent()) {
+			throw new NoSuchElementException("No existe ninguna operacion con la clave dada");
 		}
-		return null;
+			
+		return operacion.get();
 	}
 	
 	public void restaurar(String clave) {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
@@ -28,6 +29,13 @@ public class HistorialTest {
 		historial.agregar(null, 1);
 	}
 	
+	@Test(expected = NoSuchElementException.class)
+	public void ClaveInexistenteTest(){
+		Historial historial = Historial.obtenerInstancia();
+		
+		historial.obtener(Util.ObtenerGuid());
+	}
+	
 	@Test
 	public void NuevoItemValidoTest() {
 		Historial historial = Historial.obtenerInstancia();
@@ -46,15 +54,20 @@ public class HistorialTest {
 		    assertTrue(2 == item.getValue().valor());
 		}
 	}
+	
 	@Test
-	public void ObtenerTest() {
+	public void ObtenerItemTest() {
 		Historial historial = Historial.obtenerInstancia();
+		Operacion operacion = new Operacion("5*5", 25);
+		String clave = Util.ObtenerGuid();
 		
-		historial.agregar("5*5", 25);
+		historial.agregar(clave, operacion);
+		
 		//Validar el elemento solicitado
-		historial.obtener("5*5");
-//		assertEquals("5*5", item.getValue() );
+		Operacion busqueda = historial.obtener(clave);
 		
+		assertTrue("5*5" == busqueda.descripcion());
+		assertTrue(25 == busqueda.valor());
 	}
 	
 	@Test
@@ -63,5 +76,6 @@ public class HistorialTest {
 		
 		historial.vaciar();
 		
+		assertTrue(historial.listar().size() == 0);
 	}
 }
