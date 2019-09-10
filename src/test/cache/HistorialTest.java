@@ -46,4 +46,22 @@ public class HistorialTest {
 		    assertTrue(2 == item.getValue().valor());
 		}
 	}
+	@Test
+	public void ObtenerTest() {
+		Historial historial = Historial.obtenerInstancia();
+		
+		historial.agregar("5*5", 25);
+		//Validar el elemento solicitado
+		historial.obtener("5*5");
+//		assertEquals("5*5", item.getValue() );
+		
+	}
+	
+	@Test
+	public void VaciarTest() {
+		Historial historial = Historial.obtenerInstancia();
+		
+		historial.vaciar();
+		
+	}
 }
