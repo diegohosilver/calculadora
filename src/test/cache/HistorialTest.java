@@ -1,11 +1,13 @@
 package test.cache;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -77,5 +79,41 @@ public class HistorialTest {
 		historial.vaciar();
 		
 		assertTrue(historial.listar().size() == 0);
+	}
+	
+	@Test(expected = NoSuchElementException.class)
+	public void TruncarItemInexistenteTest() {
+		Historial historial = Historial.obtenerInstancia();
+		
+		String clave = Util.ObtenerGuid();
+		
+		historial.restaurar(clave);
+	}
+	
+	@Test
+	public void TruncarHistorialTest() {
+		Historial historial = Historial.obtenerInstancia();
+		
+		// Comenzar con un historial limpio
+		historial.vaciar();
+		
+		String clave = Util.ObtenerGuid();
+		Operacion operacion = new Operacion("4+4", 8);
+		
+		historial.agregar("2+2", 4);
+		historial.agregar("3+3", 6);
+		historial.agregar(clave, operacion);
+		historial.agregar("5+5", 10);
+		
+		historial.restaurar(clave);
+		
+		assertTrue(historial.listar().size() == 3);
+		
+		Optional<Operacion> itemInexistente = historial.listar().entrySet().stream()
+				.filter(x -> x.getValue().descripcion().equals("5+5"))
+				.map(Map.Entry::getValue)
+				.findFirst();
+		
+		assertFalse(itemInexistente.isPresent());
 	}
 }

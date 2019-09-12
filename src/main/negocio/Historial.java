@@ -47,14 +47,30 @@ public class Historial {
 		return operacion.get();
 	}
 	
-	public void restaurar(String clave) {
-		for(Operacion operacion: _items.values()) {
-			if(!operacion.descripcion().equals(clave)) {
-//				deberia buscar la manera de identificar a los
-//				elementos posteriores de la clave dada
-//				_items.remove(operacion);
+	public void restaurar(String clave) {		
+		// Validar que exista el elemento
+		obtener(clave);
+		boolean esPosterior = false;
+		
+		// Generar lista auxiliar
+		Map<String, Operacion> aux = new LinkedHashMap<String, Operacion>();
+		
+		for(Map.Entry<String, Operacion> item: _items.entrySet()) {
+			if (clave == item.getKey()) {
+				aux.put(item.getKey(), item.getValue());
+				esPosterior = true;
+			}
+			else {
+				if (!esPosterior) {
+					aux.put(item.getKey(), item.getValue());
+				}
+				else {
+					break;
+				}
 			}
 		}
+		
+		_items = aux;
 	}
 	
 	public void vaciar() {
