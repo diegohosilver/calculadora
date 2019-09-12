@@ -59,3 +59,12 @@ Cuenta con los siguientes métodos públicos:
         * Tipo: `IllegalArgumentException`.
         * Descripción: _Descripcion no puede estar vacío_.
 3. `Map<String, Operacion> listar()`: Devuelve el historial completo, donde la clave es un `GUID` y el valor es una instancia de `Operacion`.
+4. `Operacion obtener(string)`: Devuelve un registro del historial a partir de la clave brindada.
+    * Excepciones:
+        * Tipo: `NoSuchElementException`.
+        * Descripción: _No existe ninguna operacion con la clave dada_.
+5. `void restaurar(string)`: Trunca el historial en el registro con la clave brindada.
+    * Excepciones:
+        * Tipo: `NoSuchElementException`.
+        * Descripción: _No existe ninguna operacion con la clave dada_.
+6. `void vaciar()`: Elimina todos los registros del historial.

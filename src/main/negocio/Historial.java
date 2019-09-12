@@ -50,7 +50,6 @@ public class Historial {
 	public void restaurar(String clave) {		
 		// Validar que exista el elemento
 		obtener(clave);
-		boolean esPosterior = false;
 		
 		// Generar lista auxiliar
 		Map<String, Operacion> aux = new LinkedHashMap<String, Operacion>();
@@ -58,15 +57,10 @@ public class Historial {
 		for(Map.Entry<String, Operacion> item: _items.entrySet()) {
 			if (clave == item.getKey()) {
 				aux.put(item.getKey(), item.getValue());
-				esPosterior = true;
+				break;
 			}
 			else {
-				if (!esPosterior) {
-					aux.put(item.getKey(), item.getValue());
-				}
-				else {
-					break;
-				}
+				aux.put(item.getKey(), item.getValue());
 			}
 		}
 		
