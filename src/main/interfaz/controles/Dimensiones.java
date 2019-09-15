@@ -1,12 +1,12 @@
 package main.interfaz.controles;
 
-public class BotonDimensiones {
+public class Dimensiones {
 	private int _x;
 	private int _y;
 	private int _width;
 	private int _height;
 	
-	public BotonDimensiones(int x, int y, int width, int height) {
+	public Dimensiones(int x, int y, int width, int height) {
 		_x = x;
 		_y = y;
 		_width = width;
