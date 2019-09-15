@@ -10,6 +10,11 @@ import main.interfaz.controles.*;
 
 public class BotonTest {
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void GenerarBotonEventoVacioTest() {
+		Control.generarBoton("Texto", new Dimensiones(10, 10, 20, 30), null);
+	}
+	
 	@Test
 	public void GenerarBotonTest() {
 		JButton boton = Control.generarBoton("Texto", new Dimensiones(10, 10, 20, 30));

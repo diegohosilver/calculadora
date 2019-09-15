@@ -13,8 +13,13 @@ import main.interfaz.controles.*;
 
 public class TextoTest {
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void GenerarTextoEventoVacioTest() {
+		Control.generarTexto(new Dimensiones(10, 10, 20, 30), Color.WHITE, false, null);
+	}
+	
 	@Test
-	public void generarTextoTest() {
+	public void GenerarTextoTest() {
 		JTextField texto = Control.generarTexto(new Dimensiones(10, 10, 20, 30), Color.WHITE, false);
 		
 		assertEquals(10, texto.getX());
