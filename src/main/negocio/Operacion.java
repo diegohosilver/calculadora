@@ -1,18 +1,28 @@
 package main.negocio;
 
-public enum Operacion {
-	SUMA {
-		@Override
-		public Aritmetica obtenerOperacionAritmetica() {
-			return new Suma();
-		}
-	},
-	RESTA {
-		@Override
-		public Aritmetica obtenerOperacionAritmetica() {
-			return new Resta();
-		}
-	};
+public class Operacion {
 	
-	public abstract Aritmetica obtenerOperacionAritmetica();
+	private String _descripcion;
+	private double _valor;
+	
+	private void validarParametros() {
+		if (_descripcion == null || _descripcion.length() == 0) {
+			throw new IllegalArgumentException("Descripcion no puede estar vacio");
+		}
+	}
+	
+	public Operacion(String descripcion, double valor) {
+		_descripcion = descripcion;
+		_valor = valor;
+		
+		validarParametros();
+	}
+	
+	public String descripcion() {
+		return _descripcion;
+	}
+	
+	public double valor() {
+		return _valor;
+	}
 }

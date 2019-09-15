@@ -1,12 +1,11 @@
 package test.calculo;
 
 import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import main.negocio.Calculo;
-import main.negocio.Operacion;
+import main.negocio.calculo.Calculo;
+import main.negocio.calculo.Operacion;
 
 public class RestaTest {
 	private Calculo calculo;
