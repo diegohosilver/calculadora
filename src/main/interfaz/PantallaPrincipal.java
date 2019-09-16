@@ -1,5 +1,8 @@
 package main.interfaz;
 
+import main.negocio.calculo.Calculo;
+import main.negocio.calculo.Operacion;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -12,10 +15,45 @@ import java.awt.event.ActionListener;
 public class PantallaPrincipal extends JFrame {
 	
 	private JTextField texto;
+	private String buffer = "";
+	
+	private boolean primerTerminoLleno;
+	private boolean segundoTerminoLleno;
+	private double primerTermino = 0;
+	private double segundoTermino = 0;
+	
+	private Calculo calculo = new Calculo(Operacion.SUMA);
 
 	public PantallaPrincipal() {
 		super();
 		initialize();
+	}
+	
+	private void agregarAlBuffer(String n) {
+		buffer += n;
+	}
+	
+	private void vaciarBufferEIntentarCalcular() {
+		// Validar cual termino esta vacio
+		if (!primerTerminoLleno) {
+			primerTerminoLleno = true;
+			primerTermino = Util.ParsearADouble(buffer);
+			buffer = "";
+		}
+		else if (!segundoTerminoLleno) {
+			segundoTerminoLleno = true;
+			segundoTermino = Util.ParsearADouble(buffer);
+			buffer = "";
+		}
+		
+		if (puedoCalcular()) {
+			primerTermino = calculo.calcular(primerTermino, segundoTermino);
+			segundoTerminoLleno = false;
+		}
+	}
+	
+	private boolean puedoCalcular() {
+		return primerTerminoLleno && segundoTerminoLleno;
 	}
 
 	private void initialize() {
@@ -47,7 +85,9 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("+", new Dimensiones(136, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							texto.setText(texto.getText() + " + ");
+							texto.setText(Util.reemplazarOperador(texto.getText(), " + "));
+							calculo.cambiarOperador(Operacion.SUMA);
+							vaciarBufferEIntentarCalcular();
 						}
 					})
 				);
@@ -56,7 +96,9 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("-", new Dimensiones(262, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							texto.setText(texto.getText() + " - ");
+							texto.setText(Util.reemplazarOperador(texto.getText(), " - "));
+							calculo.cambiarOperador(Operacion.RESTA);
+							vaciarBufferEIntentarCalcular();
 						}
 					})
 				);
@@ -65,7 +107,9 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("*", new Dimensiones(388, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							texto.setText(texto.getText() + " * ");
+							texto.setText(Util.reemplazarOperador(texto.getText(), " * "));
+							calculo.cambiarOperador(Operacion.PRODUCTO);
+							vaciarBufferEIntentarCalcular();
 						}
 					})
 				);
@@ -74,7 +118,9 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("/", new Dimensiones(388, 377, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							texto.setText(texto.getText() + " / ");
+							texto.setText(Util.reemplazarOperador(texto.getText(), " / "));
+							calculo.cambiarOperador(Operacion.DIVISION);
+							vaciarBufferEIntentarCalcular();
 						}
 					})
 				);
@@ -83,7 +129,8 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("=", new Dimensiones(388, 464, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							texto.setText(texto.getText() + " = ");
+							vaciarBufferEIntentarCalcular();
+							texto.setText(Double.toString(primerTermino));					
 						}
 					})
 				);
@@ -93,6 +140,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "9");
+							agregarAlBuffer("9");
 						}
 					})
 				);
@@ -102,6 +150,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "8");
+							agregarAlBuffer("8");
 						}
 					})
 				);
@@ -111,6 +160,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "7");
+							agregarAlBuffer("7");
 						}
 					})
 				);
@@ -120,6 +170,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "6");
+							agregarAlBuffer("6");
 						}
 					})
 				);
@@ -129,6 +180,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "5");
+							agregarAlBuffer("5");
 						}
 					})
 				);
@@ -138,6 +190,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "4");
+							agregarAlBuffer("4");
 						}
 					})
 				);
@@ -147,6 +200,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "3");
+							agregarAlBuffer("3");
 						}
 					})
 				);
@@ -156,6 +210,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "2");
+							agregarAlBuffer("2");
 						}
 					})
 				);
@@ -165,6 +220,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "1");
+							agregarAlBuffer("1");
 						}
 					})
 				);
@@ -174,6 +230,7 @@ public class PantallaPrincipal extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							texto.setText(texto.getText() + "0");
+							agregarAlBuffer("0");
 						}
 					})
 				);
