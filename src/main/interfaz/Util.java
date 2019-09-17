@@ -22,6 +22,11 @@ public class Util {
 		return operadores.contains(ultimoDigito.trim());
 	}
 	
+	private static boolean esEntero(double n)
+	{
+	    return (n == Math.floor(n)) && !Double.isInfinite(n);
+	}
+	
 	public static String reemplazarOperador(String operacion, String operador) {
 		if (operacion == null || operacion.length() == 0) {
 			return "";
@@ -47,5 +52,15 @@ public class Util {
 		}
 		
 		return numero;
+	}
+	
+	public static String ParsearNumeroComoTexto(double n) {
+		String numeroComoTexto = Double.toString(n);
+		
+		if (esEntero(n)) {
+			return numeroComoTexto.substring(0, numeroComoTexto.length() - 2);
+		}
+		
+		return numeroComoTexto;
 	}
 }
