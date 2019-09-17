@@ -9,12 +9,10 @@ import javax.swing.JPanel;
 import main.interfaz.controles.Control;
 import main.interfaz.controles.Dimensiones;
 import main.negocio.Historial;
-import main.negocio.Item;
 import main.negocio.Registro;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.JLabel;
 
 public class PantallaHistorial extends JFrame {
 

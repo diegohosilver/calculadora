@@ -12,7 +12,7 @@ Este repositorio contiene código fuente y consignas a realizar en Java
     └───test
         ├───calculo -----------> Tests para verificar la funcionalidad de Calculo
         ├───cache -------------> Test para verificar la funcionalidad de Historial y Memoria
-        └───controles ---------> Test para verificar la funcionalidad del generador de Botones y Textos
+        └───controles ---------> Test para verificar la funcionalidad del generador de Botones, Textos y Etiquetas
 ```
 ### Documentación
 #### Negocio.Calculo
@@ -43,10 +43,10 @@ Cuenta con los siguientes métodos públicos:
 2. `void agregarNumero()`: Agrega un número a la memoria de la calculadora. Si la cantidad de items sobrepasa el límite, se remueve el primer número ingresado.
 3. `ArrayList<Double> listar()`: Obtiene todos los números almacenados en la memoria.
 4. `void vaciar()`: Vacía la memoria.
-##### Operacion
+##### Registro
 Es una `Clase` que guarda la información de una operación. <br>
 Cuenta con los siguientes métodos públicos:
-1. `Operacion(string, double)`: Constructor de la clase. Requiere la descripción de la operación como parámetro.
+1. `Registro(string, double)`: Constructor de la clase. Requiere la descripción de la operación como parámetro.
     * Excepciones:
         * Tipo: `IllegalArgumentException`.
         * Descripción: _Descripcion no puede estar vacío_.
@@ -70,3 +70,40 @@ Cuenta con los siguientes métodos públicos:
         * Tipo: `NoSuchElementException`.
         * Descripción: _No existe ninguna operacion con la clave dada_.
 6. `void vaciar()`: Elimina todos los registros del historial.
+#### Interfaz.Controles
+##### Control
+Es una `Clase` que genera controles visuales. <br>
+Cuenta con los siguientes métodos públicos:
+1. `JButton generarBoton(string, dimensiones, [opcional] actionListener)`: Devuelve un `JButton` con las propiedades establecidas.
+    * Excepciones:
+        * Tipo: `IllegalArgumentException`.
+        * Descripción: _Texto no puede estar vacío_.
+        * Tipo: `IllegalArgumentException`.
+        * Descripción: _Evento no puede estar vacío_.
+2. `JTextField generarTexto(dimensiones, color, boolean, [opcional] actionListener)`: Devuelve un `JTextField` con las propiedades establecidas.
+    * Excepciones:
+        * Tipo: `IllegalArgumentException`.
+        * Descripción: _Texto no puede estar vacío_.
+        * Tipo: `IllegalArgumentException`.
+        * Descripción: _Evento no puede estar vacío_.
+3. `JLabel generarEtiqueta(string, dimensiones`: Devuelve un `JLabel` con las propiedades establecidas.
+    * Excepciones:
+        * Tipo: `IllegalArgumentException`.
+        * Descripción: _Texto no puede estar vacío_.
+##### Dimensiones
+Es una `Clase` que guarda coordenadas y dimensiones. <br>
+Cuenta con los siguientes métodos públicos:
+1. `Dimensiones(int, int, int, int)`: Constructor de la clase.
+2. `int obtenerX()`: Devuelve el valor del eje X.
+3. `int obtenerY()`: Devuelve el valor del eje Y.
+4. `int obtenerAncho()`: Devuelve el valor del ancho.
+5. `int obtenerAlto()`: Devuelve el valor del alto.
+#### Interfaz
+##### Item
+Es una `Clase` que sirve de contenedor para unir Clave - Valor de un registro del historial.
+##### Controlador
+Es una `Clase` que inicializa el programa.
+##### PantallaPrincipal
+Es una `Clase` que muestra la calculadora dentro de un `JFrame`.
+##### PantallaHistorial
+Es una `Clase` que muestra el historial de operaciones dentro de un `JFrame`.

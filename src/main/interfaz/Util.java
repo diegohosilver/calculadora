@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Util {
 
+	// Valida si dentro de la operacion quedo una operacion sin cerrar (por ejemplo '4 +')
 	private static Boolean ultimoInputEsOperador(String operacion) {
 		ArrayList<String> operadores = new ArrayList<String>() {
 			{
@@ -23,11 +24,12 @@ public class Util {
 		return operadores.contains(ultimoDigito.trim());
 	}
 	
+	// Valida si los numeros luego de la , son 0
 	private static boolean esEntero(double n)
 	{
 	    return (n == Math.floor(n)) && !Double.isInfinite(n);
 	}
-	
+
 	public static String reemplazarOperador(String operacion, String operador) {
 		if (operacion == null || operacion.length() == 0) {
 			return "";
@@ -65,10 +67,12 @@ public class Util {
 		return numeroComoTexto;
 	}
 	
+	// Validar si la tecla presionada es alguna del NUMPAD
 	public static boolean esTeclaValida(KeyEvent e) {
 		return e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD;
 	}
 	
+	// Devolver el valor en formato string de la tecla presionada
 	public static String obtenerTextoAPartirDeCodigo(int codigo) {
 		switch(codigo) {
 			case KeyEvent.VK_NUMPAD0:
