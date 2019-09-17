@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import main.interfaz.controles.*;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -313,7 +314,21 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 				);
 		
 		this.getContentPane().add(
-				Control.generarBoton("Historial", new Dimensiones(136, 203, 116, 76))
+				Control.generarBoton("Historial", new Dimensiones(136, 203, 116, 76), new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							EventQueue.invokeLater(new Runnable() {
+								public void run() {
+									try {
+										PantallaHistorial frame = new PantallaHistorial();
+										frame.setVisible(true);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								}
+							});
+						}
+					})
 				);
 
 		this.getContentPane().add(
