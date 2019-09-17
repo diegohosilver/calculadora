@@ -1,5 +1,6 @@
 package main.interfaz;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Util {
@@ -62,5 +63,38 @@ public class Util {
 		}
 		
 		return numeroComoTexto;
+	}
+	
+	public static boolean esTeclaValida(KeyEvent e) {
+		return e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD;
+	}
+	
+	public static String obtenerTextoAPartirDeCodigo(int codigo) {
+		switch(codigo) {
+			case KeyEvent.VK_NUMPAD0:
+				return "0";
+			case KeyEvent.VK_NUMPAD1:
+				return "1";
+			case KeyEvent.VK_NUMPAD2:
+				return "2";
+			case KeyEvent.VK_NUMPAD3:
+				return "3";
+			case KeyEvent.VK_NUMPAD4:
+				return "4";
+			case KeyEvent.VK_NUMPAD5:
+				return "5";
+			case KeyEvent.VK_NUMPAD6:
+				return "6";
+			case KeyEvent.VK_NUMPAD7:
+				return "7";
+			case KeyEvent.VK_NUMPAD8:
+				return "8";
+			case KeyEvent.VK_NUMPAD9:
+				return "9";
+			case KeyEvent.VK_DECIMAL:
+				return ".";
+			default:
+				return "";
+		}
 	}
 }

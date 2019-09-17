@@ -11,8 +11,10 @@ import main.interfaz.controles.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class PantallaPrincipal extends JFrame {
+public class PantallaPrincipal extends JFrame implements KeyListener {
 	
 	private JTextField texto;
 	private String buffer = "";
@@ -43,21 +45,27 @@ public class PantallaPrincipal extends JFrame {
 	// Si ya existe un primer termino y el ingreso es un punto decimal, agregarlo al buffer
 	private void validarEntradaAlBuffer(String n) {
 		if ((n == "." && buffer.length() == 0) && primerTerminoLleno) {
-			buffer = Util.ParsearNumeroComoTexto(primerTermino) + ".";
+			buffer = Util.ParsearNumeroComoTexto(primerTermino);
+			primerTerminoLleno = false;
+		}
+	}
+	
+	// Si el usuario esta ingresando un numero luego de una operacion finalizada, reiniciar datos
+	private void validarReinicioBuffer() {
+		if (buffer.length() == 0 && operacionFinalizada) {
+			borrar();
 		}
 	}
 	
 	// Agregar numero al buffer
 	private void agregarAlBuffer(String n) {	
 		validarEntradaAlBuffer(n);
-		
-		if (buffer.length() == 0 && operacionFinalizada) {
-			texto.setText("");
-			operacionFinalizada = false;
-		}
+		validarReinicioBuffer();
 		
 		buffer += n;
 		texto.setText(texto.getText() + n);
+		
+		texto.requestFocus();
 	}
 	
 	// Agregar operador al cuadro de texto
@@ -65,6 +73,8 @@ public class PantallaPrincipal extends JFrame {
 		operacionFinalizada = false;
 		
 		texto.setText(Util.reemplazarOperador(texto.getText(), " " + o.trim() + " "));
+		
+		texto.requestFocus();
 	}
 	
 	// Vaciar buffer a alguno de los terminos y luego intentar calcular si ambos estan llenos
@@ -98,7 +108,42 @@ public class PantallaPrincipal extends JFrame {
 		operacionFinalizada = false;
 		buffer = "";
 		texto.setText("");
+		texto.requestFocus();
 	}
+	
+	// <-- Metodos con operadores -->
+	
+	private void sumar() {
+		agregarOperador("+");
+		calculo.cambiarOperador(Operacion.SUMA);
+		vaciarBufferEIntentarCalcular();
+	}
+	
+	private void restar() {
+		agregarOperador("-");
+		calculo.cambiarOperador(Operacion.RESTA);
+		vaciarBufferEIntentarCalcular();
+	}
+	
+	private void multiplicar() {
+		agregarOperador("*");
+		calculo.cambiarOperador(Operacion.PRODUCTO);
+		vaciarBufferEIntentarCalcular();
+	}
+	
+	private void dividir() {
+		agregarOperador("/");
+		calculo.cambiarOperador(Operacion.DIVISION);
+		vaciarBufferEIntentarCalcular();
+	}
+	
+	private void calcular() {
+		vaciarBufferEIntentarCalcular();
+		operacionFinalizada = true;
+		texto.setText(Util.ParsearNumeroComoTexto(primerTermino));
+	}
+	
+	// <-- Metodos con operadores -->
 	
 	// <-- Metodos auxiliares -->
 
@@ -110,6 +155,7 @@ public class PantallaPrincipal extends JFrame {
 	
 	private void inicializarTexto() {		
 		texto = Control.generarTexto(new Dimensiones(10, 11, 494, 176), Color.WHITE, false);
+		texto.addKeyListener(this);
 		this.getContentPane().add(texto);
 	}
 
@@ -118,9 +164,7 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("+", new Dimensiones(136, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							agregarOperador("+");
-							calculo.cambiarOperador(Operacion.SUMA);
-							vaciarBufferEIntentarCalcular();
+							sumar();
 						}
 					})
 				);
@@ -129,9 +173,7 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("-", new Dimensiones(262, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							agregarOperador("-");
-							calculo.cambiarOperador(Operacion.RESTA);
-							vaciarBufferEIntentarCalcular();
+							restar();
 						}
 					})
 				);
@@ -140,9 +182,7 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("*", new Dimensiones(388, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							agregarOperador("*");
-							calculo.cambiarOperador(Operacion.PRODUCTO);
-							vaciarBufferEIntentarCalcular();
+							multiplicar();
 						}
 					})
 				);
@@ -151,9 +191,7 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("/", new Dimensiones(388, 377, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							agregarOperador("/");
-							calculo.cambiarOperador(Operacion.DIVISION);
-							vaciarBufferEIntentarCalcular();
+							dividir();
 						}
 					})
 				);
@@ -162,9 +200,7 @@ public class PantallaPrincipal extends JFrame {
 				Control.generarBoton("=", new Dimensiones(388, 464, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							vaciarBufferEIntentarCalcular();
-							operacionFinalizada = true;
-							texto.setText(Util.ParsearNumeroComoTexto(primerTermino));					
+							calcular();			
 						}
 					})
 				);
@@ -288,6 +324,47 @@ public class PantallaPrincipal extends JFrame {
 						}
 					})
 				);	
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (!Util.esTeclaValida(e)) return;
+		
+		int codigo = e.getKeyCode();
+		String numero = Util.obtenerTextoAPartirDeCodigo(codigo);
+		
+		if (numero.length() > 0) {
+			agregarAlBuffer(numero);
+		}
+		else {
+			switch(codigo) {
+				case KeyEvent.VK_ADD:
+					sumar();
+					break;
+				case KeyEvent.VK_SUBTRACT:
+					restar();
+					break;
+				case KeyEvent.VK_DIVIDE:
+					dividir();
+					break;
+				case KeyEvent.VK_MULTIPLY:
+					multiplicar();
+					break;
+				case KeyEvent.VK_ENTER:
+					calcular();
+					break;
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
 	}
 	
 }
