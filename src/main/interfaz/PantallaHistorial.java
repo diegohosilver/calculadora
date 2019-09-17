@@ -25,6 +25,7 @@ public class PantallaHistorial extends JFrame {
 		super();
 		inicializarMarco();
 		inicializarContenido();
+		inicializarHistorial();
 	}
 	
 	private void inicializarMarco() {
@@ -33,12 +34,11 @@ public class PantallaHistorial extends JFrame {
 	}
 	
 	private void inicializarContenido() {	
+		panel = new JPanel();
 		panel.setBounds(112, 36, 96, 143);
 		getContentPane().add(panel);
 
 		getContentPane().add(Control.generarEtiqueta("Historial:", new Dimensiones(10, 11, 198, 48)));
-		
-		inicializarHistorial();
 	}
 	
 	private void inicializarHistorial() {
