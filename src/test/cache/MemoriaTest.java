@@ -21,10 +21,10 @@ public class MemoriaTest {
 	public void LimiteSuperadoDevuelve3ElementosTest() {
 		Memoria memoria = Memoria.obtenerInstancia();
 		
-		memoria.agregar(1);
-		memoria.agregar(2);
-		memoria.agregar(3);
-		memoria.agregar(4);
+		memoria.agregarNumero(1);
+		memoria.agregarNumero(2);
+		memoria.agregarNumero(3);
+		memoria.agregarNumero(4);
 		
 		assertTrue(memoria.listar().size() == 3);
 		assertFalse(memoria.listar().contains(1));
