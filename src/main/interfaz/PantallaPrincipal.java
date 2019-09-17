@@ -1,5 +1,6 @@
 package main.interfaz;
 
+import main.negocio.Historial;
 import main.negocio.calculo.Calculo;
 import main.negocio.calculo.Operacion;
 
@@ -31,6 +32,10 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 	
 	// Inicializar instancia de calculo
 	private Calculo calculo = new Calculo(Operacion.SUMA);
+	
+	// Referencia de Historial
+	private Historial historial = Historial.obtenerInstancia();
+	PantallaHistorial pantallaHistorial;
 
 	public PantallaPrincipal() {
 		super();
@@ -140,6 +145,7 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 	
 	private void calcular() {
 		vaciarBufferEIntentarCalcular();
+		historial.agregarRegistro(texto.getText() + " = " + Util.ParsearNumeroComoTexto(primerTermino), primerTermino);
 		operacionFinalizada = true;
 		texto.setText(Util.ParsearNumeroComoTexto(primerTermino));
 	}
@@ -209,7 +215,7 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 	
 	private void inicializarNumeros() {
 		this.getContentPane().add(
-				Control.generarBoton(".", new Dimensiones(262, 203, 116, 76), new ActionListener() {
+				Control.generarBoton(".", new Dimensiones(10, 290, 116, 76), new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							agregarAlBuffer(".");
@@ -308,10 +314,15 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 				);
 	}
 	
-	private void inicializarExtras() {
+	private void inicializarExtras() {		
 		this.getContentPane().add(
-				Control.generarBoton("M", new Dimensiones(10, 203, 116, 76))
-				);
+				Control.generarBoton("Borrar", new Dimensiones(10, 203, 116, 76), new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							borrar();
+						}
+					})
+				);	
 		
 		this.getContentPane().add(
 				Control.generarBoton("Historial", new Dimensiones(136, 203, 116, 76), new ActionListener() {
@@ -320,8 +331,11 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 							EventQueue.invokeLater(new Runnable() {
 								public void run() {
 									try {
-										PantallaHistorial frame = new PantallaHistorial();
-										frame.setVisible(true);
+										if (pantallaHistorial == null) {
+											pantallaHistorial = new PantallaHistorial();
+										}
+										
+										pantallaHistorial.setVisible(true);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
@@ -330,15 +344,6 @@ public class PantallaPrincipal extends JFrame implements KeyListener {
 						}
 					})
 				);
-
-		this.getContentPane().add(
-				Control.generarBoton("Borrar", new Dimensiones(10, 290, 116, 76), new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							borrar();
-						}
-					})
-				);	
 	}
 
 	@Override

@@ -5,12 +5,23 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class Control {
 	
+	// Arrojar excepcion por texto vacio
+	private static void validarTextoVacio(String texto) {
+		if (texto == null || texto.length() == 0) {
+			throw new IllegalArgumentException("Texto no puede estar vacio");
+		}
+	}
+
 	private static JButton generarBotonConPropiedades(String texto, Dimensiones dimensiones, int fuente, float tamanio) {
+		validarTextoVacio(texto);
+		
 		JButton boton = new JButton(texto);
 		
 		boton.setFont(boton.getFont().deriveFont(boton.getFont().getStyle() | fuente, tamanio));
@@ -30,6 +41,16 @@ public class Control {
 		texto.setColumns(columnas);
 		
 		return texto;
+	}
+	
+	private static JLabel generarEtiquetaConPropiedades(String texto, Dimensiones dimensiones) {
+		validarTextoVacio(texto);
+		
+		JLabel etiqueta = new JLabel(texto);
+		
+		etiqueta.setBounds(dimensiones.obtenerX(), dimensiones.obtenerY(), dimensiones.obtenerAncho(), dimensiones.obtenerAlto());
+		
+		return etiqueta;
 	}
 	
 	private static void validarEvento(ActionListener evento) {
@@ -60,5 +81,9 @@ public class Control {
 		JTextField texto = generarTextoConPropiedades(dimensiones, colorFondo, editable, Font.BOLD, 9f, SwingConstants.RIGHT, 10);
 		texto.addActionListener(evento);
 		return texto;
+	}
+	
+	public static JLabel generarEtiqueta(String texto, Dimensiones dimensiones) {
+		return generarEtiquetaConPropiedades(texto, dimensiones);
 	}
 }

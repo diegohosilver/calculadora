@@ -15,6 +15,16 @@ public class BotonTest {
 		Control.generarBoton("Texto", new Dimensiones(10, 10, 20, 30), null);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void GenerarBotonTextoVacioTest() {
+		Control.generarBoton("", new Dimensiones(10, 10, 20, 30));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void GenerarBotonTextoNullTest() {
+		Control.generarBoton(null, new Dimensiones(10, 10, 20, 30));
+	}
+	
 	@Test
 	public void GenerarBotonTest() {
 		JButton boton = Control.generarBoton("Texto", new Dimensiones(10, 10, 20, 30));
