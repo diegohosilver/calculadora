@@ -5,12 +5,14 @@ Este repositorio contiene código fuente y consignas a realizar en Java
 ```
 └───src
     ├───main
-    │   ├───negocio -----> Clases con la lógica de negocio del proyecto
-    │   │   └───calculo -> Clases con la lógica para realizar cálculos
-    │   └───interfaz ----> Clases con las interfaces visuales del proyecto
+    │   ├───negocio -----------> Clases con la lógica de negocio del proyecto
+    │   │   └───calculo -------> Clases con la lógica para realizar cálculos
+    │   └───interfaz ----------> Clases con las interfaces visuales del proyecto
+    │       └───controles -----> Clases con la lógica para generar controles
     └───test
-        ├───calculo -----> Tests para verificar la funcionalidad de Calculo
-        └───cache -------> Test para verificar la funcionalidad de Historial y Memoria
+        ├───calculo -----------> Tests para verificar la funcionalidad de Calculo
+        ├───cache -------------> Test para verificar la funcionalidad de Historial y Memoria
+        └───controles ---------> Test para verificar la funcionalidad del generador de Botones y Textos
 ```
 ### Documentación
 #### Negocio.Calculo
@@ -38,7 +40,7 @@ Cuenta con los siguientes métodos públicos:
 Es un `Singleton` que funciona como la memoria de la calculadora. Permite almacenar hasta 3 números. <br>
 Cuenta con los siguientes métodos públicos:
 1. `Memoria obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los métodos.
-2. `void agregar()`: Agrega un número a la memoria de la calculadora. Si la cantidad de items sobrepasa el límite, se remueve el primer número ingresado.
+2. `void agregarNumero()`: Agrega un número a la memoria de la calculadora. Si la cantidad de items sobrepasa el límite, se remueve el primer número ingresado.
 3. `ArrayList<Double> listar()`: Obtiene todos los números almacenados en la memoria.
 4. `void vaciar()`: Vacía la memoria.
 ##### Operacion
@@ -48,22 +50,22 @@ Cuenta con los siguientes métodos públicos:
     * Excepciones:
         * Tipo: `IllegalArgumentException`.
         * Descripción: _Descripcion no puede estar vacío_.
-2. `String descripcion()`: Devuelve la descripción de la operación (por ejemplo "1 + 1").
-3. `double valor()`: Devuelve el valor de la operación (por ejemplo `2`).
+2. `String obtenerDescripcion()`: Devuelve la descripción de la operación (por ejemplo "1 + 1").
+3. `double obtenerValor()`: Devuelve el valor de la operación (por ejemplo `2`).
 ##### Historial
 Es un `Singleton` que funciona como historial de operaciones de la calculadora. De esta manera se puede visualizar todas las operaciones realizadas por el usuario, y restaurar el estado de la calculadora a cualquier operación seleccionada. <br>
 Cuenta con los siguientes métodos públicos:
 1. `Historial obtenerInstancia()`: Devuelve la instancia de la clase para poder acceder a los métodos.
-2. `void agregar(string, double)`: Agrega un registro al historial. Requiere la descripción de la operación como parámetro.
+2. `void agregarRegistro(string, double)`: Agrega un registro al historial. Requiere la descripción de la operación como parámetro.
     * Excepciones:
         * Tipo: `IllegalArgumentException`.
         * Descripción: _Descripcion no puede estar vacío_.
 3. `Map<String, Operacion> listar()`: Devuelve el historial completo, donde la clave es un `GUID` y el valor es una instancia de `Operacion`.
-4. `Operacion obtener(string)`: Devuelve un registro del historial a partir de la clave brindada.
+4. `Operacion obtenerRegistro(string)`: Devuelve un registro del historial a partir de la clave brindada.
     * Excepciones:
         * Tipo: `NoSuchElementException`.
         * Descripción: _No existe ninguna operacion con la clave dada_.
-5. `void restaurar(string)`: Trunca el historial en el registro con la clave brindada.
+5. `void truncarEnRegistro(string)`: Trunca el historial en el registro con la clave brindada.
     * Excepciones:
         * Tipo: `NoSuchElementException`.
         * Descripción: _No existe ninguna operacion con la clave dada_.

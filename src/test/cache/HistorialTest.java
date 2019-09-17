@@ -63,7 +63,7 @@ public class HistorialTest {
 		Registro registro = new Registro("5*5", 25);
 		String clave = Util.ObtenerGuid();
 		
-		historial.agregar(clave, registro);
+		historial.agregarRegistro(clave, registro);
 		
 		//Validar el elemento solicitado
 		Registro busqueda = historial.obtenerRegistro(clave);
@@ -102,7 +102,7 @@ public class HistorialTest {
 		
 		historial.agregarRegistro("2+2", 4);
 		historial.agregarRegistro("3+3", 6);
-		historial.agregar(clave, registro);
+		historial.agregarRegistro(clave, registro);
 		historial.agregarRegistro("5+5", 10);
 		
 		historial.truncarEnRegistro(clave);

@@ -18,11 +18,11 @@ public class Operacion {
 		validarParametros();
 	}
 	
-	public String descripcion() {
+	public String obtenerDescripcion() {
 		return _descripcion;
 	}
 	
-	public double valor() {
+	public double obtenerValor() {
 		return _valor;
 	}
 }

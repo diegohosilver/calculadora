@@ -26,7 +26,7 @@ public class Historial {
 		_items.put(Util.ObtenerGuid(), new Registro(descripcion, valor));
 	}
 	
-	public void agregar(String clave, Registro registro) {
+	public void agregarRegistro(String clave, Registro registro) {
 		_items.put(clave, registro);
 	}
 	
