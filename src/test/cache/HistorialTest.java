@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.junit.Test;
 
 import main.negocio.Historial;
-import main.negocio.Operacion;
+import main.negocio.Registro;
 import main.negocio.Util;
 
 public class HistorialTest {
@@ -21,30 +21,30 @@ public class HistorialTest {
 	public void DescripcionVaciaTest() {
 		Historial historial = Historial.obtenerInstancia();
 		
-		historial.agregar("", 1);
+		historial.agregarRegistro("", 1);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void DescripcionNullTest() {
 		Historial historial = Historial.obtenerInstancia();
 		
-		historial.agregar(null, 1);
+		historial.agregarRegistro(null, 1);
 	}
 	
 	@Test(expected = NoSuchElementException.class)
 	public void ClaveInexistenteTest(){
 		Historial historial = Historial.obtenerInstancia();
 		
-		historial.obtener(Util.ObtenerGuid());
+		historial.obtenerRegistro(Util.ObtenerGuid());
 	}
 	
 	@Test
 	public void NuevoItemValidoTest() {
 		Historial historial = Historial.obtenerInstancia();
 		
-		historial.agregar("1 + 1", 2);
+		historial.agregarRegistro("1 + 1", 2);
 		
-		for (Map.Entry<String, Operacion> item : historial.listar().entrySet()) {
+		for (Map.Entry<String, Registro> item : historial.listar().entrySet()) {
 			// Validar clave
 			String guid = Util.ParsearGuid(item.getKey());
 			UUID uuid = UUID.fromString(guid);
@@ -52,24 +52,24 @@ public class HistorialTest {
 			assertEquals(guid, uuid.toString());
 		    
 		    //Validar valor
-			assertEquals("1 + 1", item.getValue().descripcion());
-		    assertTrue(2 == item.getValue().valor());
+			assertEquals("1 + 1", item.getValue().obtenerDescripcion());
+		    assertTrue(2 == item.getValue().obtenerValor());
 		}
 	}
 	
 	@Test
 	public void ObtenerItemTest() {
 		Historial historial = Historial.obtenerInstancia();
-		Operacion operacion = new Operacion("5*5", 25);
+		Registro registro = new Registro("5*5", 25);
 		String clave = Util.ObtenerGuid();
 		
-		historial.agregar(clave, operacion);
+		historial.agregar(clave, registro);
 		
 		//Validar el elemento solicitado
-		Operacion busqueda = historial.obtener(clave);
+		Registro busqueda = historial.obtenerRegistro(clave);
 		
-		assertTrue("5*5" == busqueda.descripcion());
-		assertTrue(25 == busqueda.valor());
+		assertTrue("5*5" == busqueda.obtenerDescripcion());
+		assertTrue(25 == busqueda.obtenerValor());
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class HistorialTest {
 		
 		String clave = Util.ObtenerGuid();
 		
-		historial.restaurar(clave);
+		historial.truncarEnRegistro(clave);
 	}
 	
 	@Test
@@ -98,19 +98,19 @@ public class HistorialTest {
 		historial.vaciar();
 		
 		String clave = Util.ObtenerGuid();
-		Operacion operacion = new Operacion("4+4", 8);
+		Registro registro = new Registro("4+4", 8);
 		
-		historial.agregar("2+2", 4);
-		historial.agregar("3+3", 6);
-		historial.agregar(clave, operacion);
-		historial.agregar("5+5", 10);
+		historial.agregarRegistro("2+2", 4);
+		historial.agregarRegistro("3+3", 6);
+		historial.agregar(clave, registro);
+		historial.agregarRegistro("5+5", 10);
 		
-		historial.restaurar(clave);
+		historial.truncarEnRegistro(clave);
 		
 		assertTrue(historial.listar().size() == 3);
 		
-		Optional<Operacion> itemInexistente = historial.listar().entrySet().stream()
-				.filter(x -> x.getValue().descripcion().equals("5+5"))
+		Optional<Registro> itemInexistente = historial.listar().entrySet().stream()
+				.filter(x -> x.getValue().obtenerDescripcion().equals("5+5"))
 				.map(Map.Entry::getValue)
 				.findFirst();
 		

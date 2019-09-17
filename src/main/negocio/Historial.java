@@ -8,10 +8,10 @@ import java.util.Optional;
 public class Historial {
 
 	private static Historial _instancia = null;
-	private Map<String, Operacion> _items;
+	private Map<String, Registro> _items;
 	
 	private Historial() {
-		_items = new LinkedHashMap<String, Operacion>();
+		_items = new LinkedHashMap<String, Registro>();
 	}
 	
 	public static Historial obtenerInstancia() {
@@ -22,39 +22,39 @@ public class Historial {
 		return _instancia;
 	}
 	
-	public void agregar(String descripcion, double valor) {
-		_items.put(Util.ObtenerGuid(), new Operacion(descripcion, valor));
+	public void agregarRegistro(String descripcion, double valor) {
+		_items.put(Util.ObtenerGuid(), new Registro(descripcion, valor));
 	}
 	
-	public void agregar(String clave, Operacion operacion) {
-		_items.put(clave, operacion);
+	public void agregar(String clave, Registro registro) {
+		_items.put(clave, registro);
 	}
 	
-	public Map<String, Operacion> listar() {
+	public Map<String, Registro> listar() {
 		return _items;
 	}
 	
-	public Operacion obtener(String clave) {
-		Optional<Operacion> operacion = _items.entrySet().stream()
+	public Registro obtenerRegistro(String clave) {
+		Optional<Registro> registro = _items.entrySet().stream()
 			.filter(x -> x.getKey().equals(clave))
 			.map(Map.Entry::getValue)
 			.findFirst();
 		
-		if (!operacion.isPresent()) {
+		if (!registro.isPresent()) {
 			throw new NoSuchElementException("No existe ninguna operacion con la clave dada");
 		}
 			
-		return operacion.get();
+		return registro.get();
 	}
 	
-	public void restaurar(String clave) {		
+	public void truncarEnRegistro(String clave) {		
 		// Validar que exista el elemento
-		obtener(clave);
+		obtenerRegistro(clave);
 		
 		// Generar lista auxiliar
-		Map<String, Operacion> aux = new LinkedHashMap<String, Operacion>();
+		Map<String, Registro> aux = new LinkedHashMap<String, Registro>();
 		
-		for(Map.Entry<String, Operacion> item: _items.entrySet()) {
+		for(Map.Entry<String, Registro> item: _items.entrySet()) {
 			if (clave == item.getKey()) {
 				aux.put(item.getKey(), item.getValue());
 				break;

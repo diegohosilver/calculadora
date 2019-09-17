@@ -27,7 +27,7 @@ public class Memoria {
 		return _instancia;
 	}
 	
-	public void agregar(double valor) {
+	public void agregarNumero(double valor) {
 		_items.add(valor);
 		
 		if (_items.size() > _limite) {
